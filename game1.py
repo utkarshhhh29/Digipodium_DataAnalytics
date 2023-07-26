@@ -21,17 +21,16 @@ score = 0
 
 #drawing on sccreen
 def draw():
+    
     screen.clear()
     p.draw()
     e.draw()
     c.draw()
     screen.draw.text(f'Score: {score}',(10,10),color='white')
     
-def update(dt):
-
-    global score
+#player control
+def player_control():
     
-    #player control
     if keyboard.a:
         p.x -= ps
     if keyboard.d:
@@ -43,7 +42,9 @@ def update(dt):
     if keyboard.space:
         p.angle += ps
         
-    #enemy tracks player
+#enemy tracks player
+def enemy_tracking():
+    
     if p.x > e.x:
         e.x += es
     if p.x < e.x:
@@ -52,14 +53,24 @@ def update(dt):
         e.y += es
     if p.y < e.y:
         e.y -= es
-        
+    
+    #enemy collide
+    if e.colliderect(p):
+        exit()
+ 
+def fruit_eating():           
     #fruit collide
+    global score
     if p.colliderect(c):
         c.x = randint(50, WIDTH-50)
         c.y = randint(50,HEIGHT-50)
         score += 10
         sounds.clap.play()
         
+def update(dt):
+    player_control()
+    enemy_tracking()
+    fruit_eating()        
 
 #game loop
 pgzrun.go()
