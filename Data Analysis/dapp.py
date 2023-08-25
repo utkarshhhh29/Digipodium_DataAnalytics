@@ -70,3 +70,26 @@ if st.checkbox("Visualize Categorical Data"):
     fig = px.pie(sel_col_count, sel_col_count.index, sel_col_count.values, title=f"Distribution of {sel_col}")
     st.plotly_chart(fig, use_container_width=True)
         
+if st.checkbox("visualize numerical data"): 
+    graph_types = ['Area', 'Line', 'Histogram', 'Boxplot', 'Violinplot'] 
+    st.subheader("Numerical Data Visualization")
+    num_cols = df.select_dtypes(include=np.number).columns.tolist()
+    sel_col = st.selectbox("Select Column", num_cols)
+    graph_type = st.radio("Select Graph Type", graph_types, horizontal=True)
+
+    if graph_type == graph_types[0]:
+        fig = px.area(df, y=sel_col, title=f"Area Plot of {sel_col}")
+
+    if graph_type == graph_types[1]:
+        fig = px. line(df, y=sel_col, title=f"Line Plot of {sel_col}")
+    
+    if graph_type == graph_types[2]:
+        fig = px. histogram (df, x=sel_col, title=f"Histogram of {sel_col}") 
+    
+    if graph_type == graph_types[3]: 
+        fig = px.box (df, x=sel_col, title=f"Boxplot of {sel_col}")
+
+    if graph_type ==graph_types[4]:
+        fig = px.violin (df, x=sel_col, title=f"Violinplot of {sel_col}")
+    
+    st.plotly_chart(fig, use_container_width=True)
